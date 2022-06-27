@@ -10,7 +10,7 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Dense, GlobalAveragePooling2D, Flatten
 
 INPUT_SHAPE = (224,224,3)
-
+TARGET_SHAPE = (224,224)
 @st.cache()
 def load_feature_extractor():
   eNetB7 = EfficientNetB7(include_top=False, 
@@ -48,10 +48,14 @@ def extract_feature(image):
   return extracted_feature[0]
   
 if submitted:
-  
-  
-  feat = extracted_feature(image)
-  st.text(feat)
+  if len(image) > 0:
+    image = Image.open(image)
+    image = image.resize(TARGET_SHAPE)
+    feat = extracted_feature(image)
+    st.image(image)
+    st.text(feat)
+  else:
+    st.text('Please upload an image')
   
 else:
-  st.text('Please upload image first')
+  st.text('')
