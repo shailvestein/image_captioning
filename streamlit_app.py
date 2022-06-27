@@ -43,7 +43,7 @@ with st.form('uploader'):
 def extract_feature(image):
   image = img_to_array(image)
   image = preprocess_input(image)
-  image = expand_dims(image, axis=0)
+  image = tf.expand_dims(image, axis=0)
   extracted_feature = feature_extractor.predict(image)
   return extracted_feature[0]
   
