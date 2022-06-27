@@ -35,6 +35,8 @@ def load_feature_extractor():
   
   
 feature_extractor = load_feature_extractor()
+st.title('Text generator from image')
+st.text('Please upload your image to generate text based on the visual context present in the image')
 st.warning('Warning: This project is under development phase')
 with st.form('uploader'):
   image = st.file_uploader('upload image', type=['jpg', 'png', 'jpeg'], accept_multiple_files=False)
