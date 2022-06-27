@@ -48,7 +48,7 @@ def extract_feature(image):
   return extracted_feature[0]
   
 if submitted:
-  if len(image) > 0:
+  if image:
     image = Image.open(image)
     image = image.resize(TARGET_SHAPE)
     feat = extracted_feature(image)
