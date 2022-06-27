@@ -9,6 +9,8 @@ from tensorflow.keras.applications.efficientnet import EfficientNetB7, preproces
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, Dense, GlobalAveragePooling2D, Flatten
 
+INPUT_SHAPE = (224,224,3)
+
 @st.cache()
 def load_feature_extractor():
   eNetB7 = EfficientNetB7(include_top=False, 
