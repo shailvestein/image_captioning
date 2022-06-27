@@ -35,7 +35,7 @@ def load_feature_extractor():
   
   
 feature_extractor = load_feature_extractor()
-
+st.warning('Warning: This project is under development phase')
 with st.form('uploader'):
   image = st.file_uploader('upload image', type=['jpg', 'png', 'jpeg'], accept_multiple_files=False)
   submitted = st.form_submit_button('generate features')
