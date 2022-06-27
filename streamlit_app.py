@@ -1,0 +1,55 @@
+import streamlit as st
+import tensorflow as tf
+import numpy as np
+
+from PIL import Image
+
+from tensorflow.keras.preprocessing.image import load_img, img_to_array, smart_resize
+from tensorflow.keras.applications.efficientnet import EfficientNetB7, preprocess_input
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Input, Dense, GlobalAveragePooling2D, Flatten
+
+@st.cache()
+def load_feature_extractor():
+  eNetB7 = EfficientNetB7(include_top=False, 
+                          weights='imagenet', 
+                          input_shape=(INPUT_SHAPE))
+
+  for layer in eNetB7.layers:
+      layer.trainable = False
+
+
+  # inputs = Input(shape=INPUT_SHAPE, name='input layer')
+
+  inputs = eNetB7.inputs
+  x = eNetB7.layers[-2].output
+  x = Dense(4096, activation='relu', name='dense_1')(x)
+  outputs = GlobalAveragePooling2D(name='global_pooling_layer')(x)
+
+
+
+  feature_extractor = Model(inputs=inputs, outputs=outputs)
+  return feature_extractor
+  
+  
+feature_extractor = load_feature_extractor()
+
+with st.form('uploader'):
+  image = st.file_uploader('upload image', type=['jpg', 'png', 'jpeg'], accept_multiple_files=False)
+  submitted = st.form_submit_button('generate features')
+
+def extract_feature(image):
+  image = img_to_array(image)
+  image = preprocess_input(image)
+  image = expand_dims(image, axis=0)
+  extracted_feature = feature_extractor.predict(image)
+  return extracted_feature[0]
+  
+if submitted:
+  
+  
+  feat = extracted_feature(image)
+  st.text(feat)
+  
+else:
+  st.text('Please upload image first')
