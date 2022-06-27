@@ -51,7 +51,7 @@ if submitted:
   if image:
     image = Image.open(image)
     image = image.resize(TARGET_SHAPE)
-    feat = extracted_feature(image)
+    feat = extract_feature(image)
     st.image(image)
     st.text(feat)
   else:
