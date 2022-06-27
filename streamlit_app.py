@@ -49,7 +49,7 @@ def extract_feature(image):
   
 if submitted:
   if image:
-    image = Image.open(image)
+    image = Image.open(image) 
     image = image.resize(TARGET_SHAPE)
     feat = extract_feature(image)
     st.image(image)
