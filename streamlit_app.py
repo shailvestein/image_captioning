@@ -1,8 +1,7 @@
 import streamlit as st
 import tensorflow as tf
 import numpy as np
-from predict_text import load_model
-
+import wget
 from PIL import Image
 
 from tensorflow.keras.preprocessing.image import load_img, img_to_array, smart_resize
@@ -50,6 +49,12 @@ def extract_feature(image):
   extracted_feature = feature_extractor.predict(image)
   return extracted_feature[0]
   
+@st.cache()
+def load_text_predictor():
+  text_predictor_url = "https://drive.google.com/file/d/1dI1jBVo0Bj1GzHNo7UV-Bc2d4XJhVVit/view?usp=sharing"
+  text_predictor = wget.download(text_predictor_url)
+  return text_predictor
+  
 if submitted:
   if image:
     image = Image.open(image) 
@@ -59,6 +64,11 @@ if submitted:
     st.text(feat)
   else:
     st.text('Please upload an image')
+  text_predictor = load_text_predictor()
+  if text_predictor:
+    st.text('text predictor loaded')
+  else:
+    st.text('text predictor not loaded')
   
 else:
   st.text('')
