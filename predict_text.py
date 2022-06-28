@@ -1,3 +1,4 @@
+import wget
 import streamlit as st
 import tensorflow as tf
 from tensorflow.keras.layers import LSTM, Dense, Dropout, Add, Concatenate, Embedding, Input
@@ -33,5 +34,13 @@ def load_model():
   
   return model.load_weights('sample_1.h5')
   
+  
+  
 
-!wget https://drive.google.com/file/d/1dI1jBVo0Bj1GzHNo7UV-Bc2d4XJhVVit/view?usp=sharing
+text_predictor_url = "https://drive.google.com/file/d/1dI1jBVo0Bj1GzHNo7UV-Bc2d4XJhVVit/view?usp=sharing"
+
+text_predictor = wget.download(site_url)
+if text_predictor:
+  print('Model loaded")
+else:
+  print('model not loaded')
