@@ -1,7 +1,9 @@
+import streamlit as st
 import tensorflow as tf
 from tensorflow.keras.layers import LSTM, Dense, Dropout, Add, Concatenate, Embedding, Input
 from tensorflow.keras.models import Model
 
+@st.cache()
 def load_model():
   # encoder block
   # image feature block
@@ -30,3 +32,6 @@ def load_model():
   model = Model(inputs=[inputs1, inputs2], outputs=outputs, name='seq2seq_model')
   
   return model.load_weights('sample_1.h5')
+  
+
+wget https://drive.google.com/file/d/1dI1jBVo0Bj1GzHNo7UV-Bc2d4XJhVVit/view?usp=sharing
