@@ -45,7 +45,11 @@ def extract_feature(image):
   extracted_feature = feature_extractor.predict(image)
   return extracted_feature[0]
   
-
+@st.cache()
+def load_text_predictor():
+  text_predictor_url = "https://drive.google.com/file/d/1dI1jBVo0Bj1GzHNo7UV-Bc2d4XJhVVit/view?usp=sharing"
+  text_predictor = wget.download(text_predictor_url)
+  return text_predictor
   
 if submitted:
   if image:
