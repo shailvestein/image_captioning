@@ -39,7 +39,7 @@ def load_model():
 
 text_predictor_url = "https://drive.google.com/file/d/1dI1jBVo0Bj1GzHNo7UV-Bc2d4XJhVVit/view?usp=sharing"
 
-text_predictor = wget.download(site_url)
+text_predictor = wget.download(text_predictor_url)
 if text_predictor:
   print('Model loaded")
 else:
