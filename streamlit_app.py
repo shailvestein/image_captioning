@@ -11,6 +11,7 @@ from tensorflow.keras.layers import Input, Dense, GlobalAveragePooling2D, Flatte
 
 INPUT_SHAPE = (224,224,3)
 TARGET_SHAPE = (224,224)
+
 @st.cache()
 def load_feature_extractor():
   eNetB7 = EfficientNetB7(include_top=False, 
@@ -19,18 +20,13 @@ def load_feature_extractor():
 
   for layer in eNetB7.layers:
       layer.trainable = False
-
-
-  # inputs = Input(shape=INPUT_SHAPE, name='input layer')
-
+      
   inputs = eNetB7.inputs
   x = eNetB7.layers[-2].output
   x = Dense(4096, activation='relu', name='dense_1')(x)
   outputs = GlobalAveragePooling2D(name='global_pooling_layer')(x)
-
-
-
   feature_extractor = Model(inputs=inputs, outputs=outputs)
+  
   return feature_extractor
   
   
@@ -49,11 +45,7 @@ def extract_feature(image):
   extracted_feature = feature_extractor.predict(image)
   return extracted_feature[0]
   
-@st.cache()
-def load_text_predictor():
-  text_predictor_url = "https://drive.google.com/file/d/1dI1jBVo0Bj1GzHNo7UV-Bc2d4XJhVVit/view?usp=sharing"
-  text_predictor = wget.download(text_predictor_url)
-  return text_predictor
+
   
 if submitted:
   if image:
@@ -67,7 +59,7 @@ if submitted:
   text_predictor = load_text_predictor()
   if text_predictor:
     st.text('text predictor loaded')
-    st.text(text_predictor.predict(image))
+    # st.text(text_predictor.predict(image))
     
   else:
     st.text('text predictor not loaded')
