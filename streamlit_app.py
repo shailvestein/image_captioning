@@ -67,6 +67,8 @@ if submitted:
   text_predictor = load_text_predictor()
   if text_predictor:
     st.text('text predictor loaded')
+    st.text(text_predictor.predict(image))
+    
   else:
     st.text('text predictor not loaded')
   
