@@ -34,4 +34,4 @@ def load_model():
   return model.load_weights('sample_1.h5')
   
 
-wget https://drive.google.com/file/d/1dI1jBVo0Bj1GzHNo7UV-Bc2d4XJhVVit/view?usp=sharing
+!wget https://drive.google.com/file/d/1dI1jBVo0Bj1GzHNo7UV-Bc2d4XJhVVit/view?usp=sharing
