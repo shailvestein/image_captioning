@@ -1,7 +1,7 @@
 import streamlit as st
 import tensorflow as tf
 import numpy as np
-import predict_text
+from predict_text import load_model
 
 from PIL import Image
 
