@@ -19,6 +19,7 @@ IMAGE_INP_SHAPE = 4096
 def load_tokenizer():
   with open('tokenizer.pkl', 'rb') as f:
     tokenizer = pkl.load(f)
+  return tokenizer
     
 tokenizer = load_tokenizer()
 inverse_vocab = tokenizer.index_word
