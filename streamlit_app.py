@@ -69,7 +69,7 @@ def load_text_predictor():
   
   # sequence2sequence block
   inputs2 = Input(shape=(MAX_LENGTH,), name='inputs2_layer')
-  enc2 = Embedding(input_dim=vocab_size, output_dim=256, input_length=MAX_LENGTH, mask_zero=True, name='embedding_layer')(inputs2)
+  enc2 = Embedding(input_dim=VOCAB_SIZE, output_dim=256, input_length=MAX_LENGTH, mask_zero=True, name='embedding_layer')(inputs2)
   enc2 = LSTM(units=256, return_sequences=True, name='LSTM_1')(enc2)
   enc2 = LSTM(256, return_sequences=True, name='LSTM_2')(enc2)
   enc2 = LSTM(256, return_sequences=True, name='LSTM_3')(enc2)
@@ -81,7 +81,7 @@ def load_text_predictor():
   # decoder block
   dec = Dense(512, activation='relu', name='dec_dense1')(concat)
   dec = Dropout(0.5, name='dropout_3')(dec)
-  outputs = Dense(vocab_size, activation='softmax', name='dec_output')(dec)
+  outputs = Dense(VOCAB_SIZE, activation='softmax', name='dec_output')(dec)
 
   ## initializing model
   text_predictor_model = Model(inputs=[inputs1, inputs2], outputs=outputs, name='seq2seq_model')
