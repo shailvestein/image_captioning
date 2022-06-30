@@ -87,7 +87,7 @@ def load_text_predictor():
   text_predictor = wget.download(text_predictor_url, out='text_predictor.h5')
   st.text(type(text_predictor))
 #   text_predictor_model.load_weights('text_predictor.h5')
-  text_predictor_model.load_weigths(text_predictor)
+  text_predictor_model.load_weights(text_predictor)
   return text_predictor_model
 
 text_predictor_model = load_text_predictor()
