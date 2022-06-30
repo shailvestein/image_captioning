@@ -3,6 +3,7 @@ import tensorflow as tf
 import numpy as np
 import wget
 from PIL import Image
+import pickle as pkl
 
 from tensorflow.keras.preprocessing.image import load_img, img_to_array, smart_resize
 from tensorflow.keras.applications.efficientnet import EfficientNetB7, preprocess_input
@@ -11,7 +12,14 @@ from tensorflow.keras.layers import Input, Dense, GlobalAveragePooling2D, Flatte
 
 INPUT_SHAPE = (224,224,3)
 TARGET_SHAPE = (224,224)
-IMAGE_IMP_SHAPE = 4096
+IMAGE_INP_SHAPE = 4096
+
+@st.cache()
+def load_tokenizer():
+  with open('tokenizer.pkl', 'rb') as f:
+    tokenizer = pkl.load(f)
+    
+tokenizer = load_tokenizer()
 
 @st.cache()
 def load_feature_extractor():
@@ -50,10 +58,10 @@ def extract_feature(image):
 def load_text_predictor():
 
   # encoder block
-  inputs1 = Input(shape=IMAGE_IMP_SHAPE, name='inputs1_layer')
+  inputs1 = Input(shape=IMAGE_INP_SHAPE, name='inputs1_layer')
   enc1 = Dropout(0.5, name='dropout_1')(inputs1)
   enc1 = Dense(1024, activation='relu', name='input1_dense')(enc1)
-  max_length = max_length
+  max_length = 43
   
   # sequence2sequence block
   inputs2 = Input(shape=(max_length,), name='inputs2_layer')
@@ -80,6 +88,7 @@ def load_text_predictor():
   return text_predictor_model
 
 text_predictor_model = load_text_predictor()
+inverse_vocab = tokenizer.index_word
 
 @st.cache()
 def predict_caption(img_features, text_predictor_model):
