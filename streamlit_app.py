@@ -47,21 +47,65 @@ def extract_feature(image):
   
 @st.cache()
 def load_text_predictor():
-  text_predictor_url = "https://drive.google.com/file/d/1dI1jBVo0Bj1GzHNo7UV-Bc2d4XJhVVit/view?usp=sharing"
-  text_predictor = wget.download(text_predictor_url)
-  return text_predictor
+
+  # encoder block
+  inputs1 = Input(shape=image_inp_shape, name='inputs1_layer')
+  enc1 = Dropout(0.5, name='dropout_1')(inputs1)
+  enc1 = Dense(1024, activation='relu', name='input1_dense')(enc1)
+  max_length = max_length
   
+  # sequence2sequence block
+  inputs2 = Input(shape=(max_length,), name='inputs2_layer')
+  enc2 = Embedding(input_dim=vocab_size, output_dim=256, input_length=max_length, mask_zero=True, name='embedding_layer')(inputs2)
+  enc2 = LSTM(units=256, return_sequences=True, name='LSTM_1')(enc2)
+  enc2 = LSTM(256, return_sequences=True, name='LSTM_2')(enc2)
+  enc2 = LSTM(256, return_sequences=True, name='LSTM_3')(enc2)
+  enc2 = LSTM(units=256, name='LSTM_4')(enc2)
+  enc2 = Dropout(0.5, name='dropout_2')(enc2)
+
+  concat = Concatenate()([enc1, enc2])
+
+  # decoder block
+  dec = Dense(512, activation='relu', name='dec_dense1')(concat)
+  dec = Dropout(0.5, name='dropout_3')(dec)
+  outputs = Dense(vocab_size, activation='softmax', name='dec_output')(dec)
+
+  ## initializing model
+  text_predictor_model = Model(inputs=[inputs1, inputs2], outputs=outputs, name='seq2seq_model')
+  
+  text_predictor_url = "https://drive.google.com/file/d/1cIfXdgSWjlseXkU24w5BKp-scXsQbCtm/view?usp=sharing"
+  text_predictor = wget.download(text_predictor_url)
+  text_predictor_model.load_model(text_predictor)
+  return text_predictor_model
+
+text_predictor_model = load_text_predictor()
+
+@st.cache()
+def predict_caption(img_features, text_predictor_model):
+    text = 'sos'
+    for i in range(max_length):
+        seq = tokenizer.texts_to_sequences([text])[0]
+        pad_seq = pad_sequences([seq], maxlen=max_length, padding='post')
+        yhat = text_predictor.predict([img_features, pad_seq])
+        y_pred = np.argmax(yhat)
+        word = inverse_vocab.get(y_pred)
+        text += ' ' + word
+        if word == 'eos':
+            break
+    return text
+
 if submitted:
   if image:
     image = Image.open(image) 
     image = image.resize(TARGET_SHAPE)
     feat = extract_feature(image)
+    predicted_text = predict_caption(feat, text_predictor_model)
     st.image(image)
     st.text(feat)
+    st.text(predicted_text)
   else:
     st.text('Please upload an image')
-  text_predictor = load_text_predictor()
-  if text_predictor:
+  if text_predictor_model:
     st.text('text predictor loaded')
     # st.text(text_predictor.predict(image))
     
