@@ -87,6 +87,8 @@ def load_text_predictor():
   text_predictor_model = Model(inputs=[inputs1, inputs2], outputs=outputs, name='seq2seq_model')
   return text_predictor_model
 
+text_predictor_model = load_text_predictor()
+
 @st.cache()
 def load_text_predictor_weight(text_predictor_model):
   text_predictor_url = "https://drive.google.com/file/d/1cIfXdgSWjlseXkU24w5BKp-scXsQbCtm/view?usp=sharing"
