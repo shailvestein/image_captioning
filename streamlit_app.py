@@ -59,7 +59,6 @@ def extract_feature(image):
   return extracted_feature[0]
   
 def load_text_predictor():
-
   # encoder block
   inputs1 = Input(shape=IMAGE_INP_SHAPE, name='inputs1_layer')
   enc1 = Dropout(0.5, name='dropout_1')(inputs1)
@@ -91,7 +90,7 @@ def load_text_predictor():
   text_predictor_model.load_model('text_predictor.h5')
   return text_predictor_model
 
-text_predictor_model = load_text_predictor_weight(text_predictor_model)
+text_predictor_model = load_text_predictor()
 
 def predict_caption(img_features, text_predictor_model):
     text = 'sos'
