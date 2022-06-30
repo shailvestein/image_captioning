@@ -58,7 +58,6 @@ def extract_feature(image):
   extracted_feature = feature_extractor.predict(image)
   return extracted_feature[0]
   
-@st.cache()
 def load_text_predictor():
 
   # encoder block
@@ -85,21 +84,15 @@ def load_text_predictor():
 
   ## initializing model
   text_predictor_model = Model(inputs=[inputs1, inputs2], outputs=outputs, name='seq2seq_model')
-  return text_predictor_model
-
-text_predictor_model = load_text_predictor()
-
-@st.cache()
-def load_text_predictor_weight(text_predictor_model):
+  
   text_predictor_url = "https://drive.google.com/file/d/1cIfXdgSWjlseXkU24w5BKp-scXsQbCtm/view?usp=sharing"
   text_predictor = wget.download(text_predictor_url, out='text_predictor.h5')
   st.text(type(text_predictor))
-  text_predictor_model.load_model(text_predictor)
+  text_predictor_model.load_model('text_predictor.h5')
   return text_predictor_model
 
 text_predictor_model = load_text_predictor_weight(text_predictor_model)
 
-@st.cache()
 def predict_caption(img_features, text_predictor_model):
     text = 'sos'
     for i in range(MAX_LENGTH):
