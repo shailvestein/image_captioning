@@ -21,6 +21,8 @@ def load_tokenizer():
     tokenizer = pkl.load(f)
     
 tokenizer = load_tokenizer()
+inverse_vocab = tokenizer.index_word
+VOCAB_SIZE = len(inverse_vocab) + 1
 
 @st.cache()
 def load_feature_extractor():
@@ -62,11 +64,11 @@ def load_text_predictor():
   inputs1 = Input(shape=IMAGE_INP_SHAPE, name='inputs1_layer')
   enc1 = Dropout(0.5, name='dropout_1')(inputs1)
   enc1 = Dense(1024, activation='relu', name='input1_dense')(enc1)
-  max_length = 43
+  MAX_LENGTH = 43
   
   # sequence2sequence block
-  inputs2 = Input(shape=(max_length,), name='inputs2_layer')
-  enc2 = Embedding(input_dim=vocab_size, output_dim=256, input_length=max_length, mask_zero=True, name='embedding_layer')(inputs2)
+  inputs2 = Input(shape=(MAX_LENGTH,), name='inputs2_layer')
+  enc2 = Embedding(input_dim=vocab_size, output_dim=256, input_length=MAX_LENGTH, mask_zero=True, name='embedding_layer')(inputs2)
   enc2 = LSTM(units=256, return_sequences=True, name='LSTM_1')(enc2)
   enc2 = LSTM(256, return_sequences=True, name='LSTM_2')(enc2)
   enc2 = LSTM(256, return_sequences=True, name='LSTM_3')(enc2)
@@ -89,14 +91,14 @@ def load_text_predictor():
   return text_predictor_model
 
 text_predictor_model = load_text_predictor()
-inverse_vocab = tokenizer.index_word
+
 
 @st.cache()
 def predict_caption(img_features, text_predictor_model):
     text = 'sos'
-    for i in range(max_length):
+    for i in range(MAX_LENGTH):
         seq = tokenizer.texts_to_sequences([text])[0]
-        pad_seq = pad_sequences([seq], maxlen=max_length, padding='post')
+        pad_seq = pad_sequences([seq], maxlen=MAX_LENGTH, padding='post')
         yhat = text_predictor.predict([img_features, pad_seq])
         y_pred = np.argmax(yhat)
         word = inverse_vocab.get(y_pred)
