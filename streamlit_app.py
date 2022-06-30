@@ -87,8 +87,9 @@ def load_text_predictor():
   text_predictor_url = "https://drive.google.com/file/d/1cIfXdgSWjlseXkU24w5BKp-scXsQbCtm/view?usp=sharing"
   text_predictor = wget.download(text_predictor_url, out='text_predictor.h5')
   st.text(type(text_predictor))
-  text_predictor_model.load_model('text_predictor.h5')
-  return text_predictor_model
+#   text_predictor_model.load_model('text_predictor.h5')
+  m = tf.keras.models.load_model('text_predictor.h5')
+  return m
 
 text_predictor_model = load_text_predictor()
 
