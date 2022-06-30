@@ -11,6 +11,7 @@ from tensorflow.keras.layers import Input, Dense, GlobalAveragePooling2D, Flatte
 
 INPUT_SHAPE = (224,224,3)
 TARGET_SHAPE = (224,224)
+IMAGE_IMP_SHAPE = 4096
 
 @st.cache()
 def load_feature_extractor():
@@ -49,7 +50,7 @@ def extract_feature(image):
 def load_text_predictor():
 
   # encoder block
-  inputs1 = Input(shape=image_inp_shape, name='inputs1_layer')
+  inputs1 = Input(shape=IMAGE_IMP_SHAPE, name='inputs1_layer')
   enc1 = Dropout(0.5, name='dropout_1')(inputs1)
   enc1 = Dense(1024, activation='relu', name='input1_dense')(enc1)
   max_length = max_length
