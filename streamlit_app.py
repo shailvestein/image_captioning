@@ -8,7 +8,8 @@ import pickle as pkl
 from tensorflow.keras.preprocessing.image import load_img, img_to_array, smart_resize
 from tensorflow.keras.applications.efficientnet import EfficientNetB7, preprocess_input
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Input, Dense, GlobalAveragePooling2D, Flatten
+from tensorflow.keras.layers import Input, Dense, GlobalAveragePooling2D, Flatten, LSTM, Dropout, Add, Concatenate, Embedding
+
 
 INPUT_SHAPE = (224,224,3)
 TARGET_SHAPE = (224,224)
