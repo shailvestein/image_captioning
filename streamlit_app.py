@@ -92,7 +92,7 @@ text_predictor_model = load_text_predictor()
 @st.cache()
 def load_text_predictor_weight(text_predictor_model):
   text_predictor_url = "https://drive.google.com/file/d/1cIfXdgSWjlseXkU24w5BKp-scXsQbCtm/view?usp=sharing"
-  text_predictor = wget.download(text_predictor_url)
+  text_predictor = wget.download(text_predictor_url, out='text_predictor.h5')
   st.text(type(text_predictor))
   text_predictor_model.load_model(text_predictor)
   return text_predictor_model
