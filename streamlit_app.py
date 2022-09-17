@@ -138,7 +138,7 @@ if submitted:
                 break 
         st.text('done!')
         st.text('')
-        st.text(result)
+        st.text(f'Caption: {result}')
         st.image(image)
         
     else:
