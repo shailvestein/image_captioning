@@ -136,9 +136,14 @@ if submitted:
             # breaking loop/prediction if <end> word detected
             if word == '<end>':
                 break 
+                
+                
         st.text('done!')
         st.text('')
-        st.text(f'Caption: {result}')
+        
+        result = result.split(' ')
+        output = ' '.join(word for word in result[1:-1])
+        st.text(f'Caption: {output}')
         st.image(image)
         
     else:
