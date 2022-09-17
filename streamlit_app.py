@@ -123,7 +123,7 @@ if submitted:
             # converting result into sequences
             inp_seq = tokenizer.texts_to_sequences([result])[0]
             # padding inp_sequences
-            pad_seq = pad_sequences([inp_seq], maxlen=max_length, padding='post')
+            pad_seq = pad_sequences([inp_seq], maxlen=MAX_LENGTH, padding='post')
             # Now, predicting the captioning words for from 
             # the image feature and padded sequences array
             yhat = caption_generator.predict([feature, pad_seq])
