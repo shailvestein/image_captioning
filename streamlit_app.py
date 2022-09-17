@@ -70,7 +70,7 @@ def load_caption_generator():
     gdown.download(url, output, quiet=False)
     time.sleep(0.5)
     caption_generator = build_model(feature_input_shape=2560, vocab_size=vocab_size, units=512, max_length=MAX_LENGTH, embedding_dim=EMBEDDING_DIM)
-    caption_generator.load_weights("../image_captioner.h5")
+    caption_generator.load_weights("./image_captioner.h5")
     return caption_generator
     
 caption_generator = load_caption_generator()
