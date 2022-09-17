@@ -89,7 +89,7 @@ st.text("what is present in the image without any huma interference.")
 # creating form to upload image 
 with st.form('uploader'):
      # file uploader
-     image_file = st.file_uploader("Upload Your Image Here", type=['jpg'], accept_multiple_files=False)
+     uploaded_image_file = st.file_uploader("Upload Your Image Here", type=['jpg'], accept_multiple_files=False)
      # submit button
      submitted = st.form_submit_button('Generate Caption')
 
@@ -102,17 +102,17 @@ if submitted:
         # 
         st.text('Extracting feature from image...')
         # reading image file
-        image = Image.open(image_file)
+        image = Image.open(uploaded_image_file)
         # resizing image array
-        image = image.resize(SHAPE, Image.Resampling.NEAREST)
+        resized_image = image.resize(SHAPE, Image.Resampling.NEAREST)
         # converting image file into array
-        img = img_to_array(image)
+        image_array = img_to_array(resized_image)
         # applying preprocessing function
-        img = preprocess_input(img)
+        preprocessed_image = preprocess_input(image_array)
         # expanding dimension of input image 
-        img = expand_dims(img, axis=0)
+        expanded_dim_image = expand_dims(preprocessed_image, axis=0)
         # extracting features from image
-        feature = np.array(feature_extractor.predict(img))
+        feature = np.array(feature_extractor.predict(expanded_dim_image))
         # 
         st.text('done')
         # 
