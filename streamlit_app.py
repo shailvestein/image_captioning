@@ -65,7 +65,7 @@ def build_model(feature_input_shape, vocab_size, units, max_length, embedding_di
 @st.cache
 def load_caption_generator():
     # downloading trained caption generator model from my google drive 
-    url = "https://drive.google.com/uc?id=100gJejr3YcYKHQGWZd7WGSLdeprPiuEG"
+    url = "https://drive.google.com/uc?id=10AkZ2UTReklr_lDlJ1R8jUWszr_OCscG"
     output="image_captioner.h5"
     gdown.download(url, output, quiet=False)
     time.sleep(0.5)
