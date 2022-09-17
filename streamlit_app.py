@@ -119,7 +119,7 @@ if submitted:
         st.text('Generating caption....')
         # this will store the predicted result 
         result = "<start>"
-        for i in range(max_length):
+        for i in range(MAX_LENGTH):
             # converting result into sequences
             inp_seq = tokenizer.texts_to_sequences([result])[0]
             # padding inp_sequences
@@ -130,7 +130,7 @@ if submitted:
             # getting index of predicted word 
             word_index = np.argmax(yhat, axis=-1)[0]
             # getting word for index from inverse vocabulary
-            word = tokenizer.index_word.get(word_index)
+            word = inverse_vocabulary.get(word_index)
             # concatenating generated word to result
             result += ' ' + word 
             # breaking loop/prediction if <end> word detected
