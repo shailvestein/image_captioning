@@ -16,6 +16,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 SHAPE=(600,600)
 MAX_LENGTH=33
+EMBEDDING_DIM=200
 
 
 @st.cache
