@@ -3,7 +3,8 @@ import gdown
 import numpy as np
 import pickle as pkl
 import os
-import time
+from PIL import Image
+
 from tensorflow.keras.layers import Input, Embedding, RepeatVector, TimeDistributed, LSTM, Dense, Dropout, Concatenate
 from tensorflow.keras.models import Model
 import tensorflow as tf
@@ -37,7 +38,7 @@ def load_feature_extractor():
     efficientnet_b7=EfficientNetB7(weights='imagenet')
     feature_extractor=Model(inputs=efficientnet_b7.inputs, outputs=efficientnet_b7.layers[-2].output)
     optmizer = tf.keras.optimizers.Adam(1e-5)
-    feature_extractor.compile(optimizer=optmizer, loss='categorical_crossentropy', metrics=['accuracy'])
+    # feature_extractor.compile(optimizer=optmizer, loss='categorical_crossentropy', metrics=['accuracy'])
     
     return feature_extractor
     
@@ -102,7 +103,9 @@ if submitted:
         # 
         st.text('Extracting feature from image...')
         # reading image file
-        image = load_img(image_file, target_size=SHAPE)
+        image = Image.open(image_file)
+        # resizing image array
+        image = image.resize(SHAPE, Image.Resampling.NEAREST)
         # converting image file into array
         img = img_to_array(image)
         # applying preprocessing function
