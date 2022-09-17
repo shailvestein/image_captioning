@@ -137,8 +137,9 @@ if submitted:
             if word == '<end>':
                 break 
         st.text('done!')
-        
-        st.image(image, caption=result)
+        st.text('')
+        st.text(result)
+        st.image(image)
         
     else:
         st.text("Alert: please upload image before clicking on generate image caption!")
