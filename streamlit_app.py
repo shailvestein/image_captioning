@@ -98,7 +98,7 @@ with st.form('uploader'):
 if submitted:    
     # appending images into list if there are more than 1 images uploaded
     # if image_file is not none
-    if not image_file is None:
+    if not uploaded_image_file is None:
         # 
         st.text('Extracting feature from image...')
         # reading image file
@@ -142,7 +142,7 @@ if submitted:
         st.image(image)
         
     else:
-        st.text("Alert: please upload image before clicking on generate image caption!")
+        st.text(" ")
 else:
     # if get image scene name is clicked but no images are uploaded print this messege
-    st.text('Please upload an image first then click on "generate caption" button!')
+    st.text('Alert: please upload image before clicking on generate image caption!')
