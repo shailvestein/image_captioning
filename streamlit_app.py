@@ -2,6 +2,8 @@ import streamlit as st
 import gdown
 import numpy as np
 import pickle as pkl
+import os
+import time
 # from tensorflow.keras.layers import Input, Embedding, LSTM, Dense, Dropout, Add, Concatenate
 # from tensorflow.keras.models import Model
 # import tensorflow as tf
@@ -28,8 +30,11 @@ feature_extractor = load_feature_extractor()
 @st.cache
 def load_caption_generator():
     # downloading trained caption generator model from my google drive 
-    !gdown https://drive.google.com/uc?id=100gJejr3YcYKHQGWZd7WGSLdeprPiuEG
-    caption_generator='image_captioner.h5'
+    url = "https://drive.google.com/uc?id=100gJejr3YcYKHQGWZd7WGSLdeprPiuEG"
+    output="image_captioner.h5"
+    gdown.download(url, output, quiet=False)
+    time.sleep(2)
+    caption_generator = "image_captioner.h5"
     return caption_generator
     
 caption_generator = load_caption_generator()
