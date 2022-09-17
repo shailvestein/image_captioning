@@ -22,6 +22,7 @@ def load_feature_extractor():
     # downloading tensorflow pre-trained model for generating feature from image 
     efficientnet_b7=EfficientNetB7(weights='imagenet')
     feature_extractor=Model(inputs=efficientnet_b7.inputs, outputs=efficientnet_b7.layers[-2].output)
+    feature_extractor.compile(optimizer=sgd,loss='categorical_crossentropy',metrics=['accuracy'])
     return feature_extractor
     
     
