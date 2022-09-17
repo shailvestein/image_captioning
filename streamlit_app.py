@@ -111,6 +111,6 @@ if submitted:
         
     else:
         st.text("Alert: please upload image before clicking on generate image caption!")
- else:
+else:
     # if get image scene name is clicked but no images are uploaded print this messege
     st.text('Please upload an image first then click on "generate caption" button!')
