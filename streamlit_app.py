@@ -16,13 +16,15 @@ from tensorflow.keras.preprocessing.image import load_img, img_to_array
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 SHAPE=(600,600)
-MAX_LENGTH=33
+MAX_LENGTH=182
 EMBEDDING_DIM=200
 
 
 @st.cache
 def load_tokenizer():
-    with open('tokenizer.pkl', 'rb') as f:
+    # with open('tokenizer.pkl', 'rb') as f:
+        # tokenizer = pkl.load(f)
+    with open('tokenizer_gru.pkl', 'rb') as f:
         tokenizer = pkl.load(f)
     return tokenizer 
     
