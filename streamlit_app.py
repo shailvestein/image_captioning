@@ -67,8 +67,9 @@ def build_model(feature_input_shape, vocab_size, units, max_length, embedding_di
 def load_caption_generator():
     # downloading trained caption generator model from my google drive 
     # url = "https://drive.google.com/uc?id=10AkZ2UTReklr_lDlJ1R8jUWszr_OCscG"
+    # output="image_captioner.h5"
     url = "https://drive.google.com/uc?id=18koqPsLPriLm8jAvbfINCsAfwMP52iRy"
-    output="image_captioner.h5"
+    output="image_captioner_gru.h5"
     gdown.download(url, output, quiet=False)
     caption_generator = build_model(feature_input_shape=2560, vocab_size=vocab_size, units=256, max_length=MAX_LENGTH, embedding_dim=EMBEDDING_DIM)
     caption_generator.load_weights("image_captioner.h5")
