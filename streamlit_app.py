@@ -5,7 +5,7 @@ import pickle as pkl
 import os
 from PIL import Image
 
-from tensorflow.keras.layers import Input, Embedding, RepeatVector, TimeDistributed, LSTM, Dense, Dropout, Concatenate
+from tensorflow.keras.layers import Input, Embedding, RepeatVector, GRU, TimeDistributed, LSTM, Dense, Dropout, Concatenate
 from tensorflow.keras.models import Model
 import tensorflow as tf
 
@@ -52,12 +52,12 @@ def build_model(feature_input_shape, vocab_size, units, max_length, embedding_di
     x1=RepeatVector(max_length, name='repeat_vector_layer')(x1)
     input2 = Input(shape=(max_length,), name='caption_input_layer')
     x2=Embedding(vocab_size, embedding_dim, input_length=max_length, mask_zero=True, trainable=False, name='Embedding_layer')(input2)
-    x2=LSTM(units, return_sequences=True, name='lstm_layer_1')(x2)
+    x2=GRU(units, return_sequences=True, name='lstm_layer_1')(x2)
     x2=TimeDistributed(Dense(embedding_dim, name='densly_time_distributed_layer'), name='time_distributed_layer')(x2)
 
     x=Concatenate(name='concate_layer')([x1,x2])
-    x=LSTM(units, return_sequences=True)(x)
-    x=LSTM(units)(x)
+    x=GRU(units, return_sequences=True)(x)
+    x=GRU(units)(x)
     x=Dense(units, activation='relu', name='dense_layer_1_after_concat')(x)
     output=Dense(vocab_size, activation='softmax', name='output_layer')(x)
     model=Model(inputs=[input1, input2], outputs=output, name='image_captioning_model')
@@ -66,7 +66,8 @@ def build_model(feature_input_shape, vocab_size, units, max_length, embedding_di
 @st.cache
 def load_caption_generator():
     # downloading trained caption generator model from my google drive 
-    url = "https://drive.google.com/uc?id=10AkZ2UTReklr_lDlJ1R8jUWszr_OCscG"
+    # url = "https://drive.google.com/uc?id=10AkZ2UTReklr_lDlJ1R8jUWszr_OCscG"
+    url = "https://drive.google.com/uc?id=18koqPsLPriLm8jAvbfINCsAfwMP52iRy"
     output="image_captioner.h5"
     gdown.download(url, output, quiet=False)
     caption_generator = build_model(feature_input_shape=2560, vocab_size=vocab_size, units=256, max_length=MAX_LENGTH, embedding_dim=EMBEDDING_DIM)
