@@ -20,7 +20,7 @@ MAX_LENGTH=22
 EMBEDDING_DIM=200
 
 
-@st.cache
+@st.cache(max_entries=1)
 def load_tokenizer():
     with open('tokenizer.pkl', 'rb') as f:
         tokenizer = pkl.load(f)
@@ -30,7 +30,7 @@ tokenizer = load_tokenizer()
 inverse_vocabulary = tokenizer.index_word
 vocab_size=len(inverse_vocabulary)+1
 
-@st.cache
+@st.cache(max_entries=1)
 def load_feature_extractor():
     # downloading tensorflow pre-trained model for generating feature from image 
     # url = 'https://drive.google.com/uc?id=1-050q5AQWBArHiDZf6yRH6bXk29KoWPV'
@@ -45,7 +45,7 @@ def load_feature_extractor():
     
 feature_extractor = load_feature_extractor()
 
-@st.cache
+@st.cache(max_entries=1)
 def build_model(feature_input_shape, vocab_size, units, max_length, embedding_dim):
     input1 = Input(shape=feature_input_shape, name='feature_input_layer')
     x1=Dense(units, activation='relu', name='dense_layer_1_after_feature_input')(input1)
@@ -63,7 +63,7 @@ def build_model(feature_input_shape, vocab_size, units, max_length, embedding_di
     model=Model(inputs=[input1, input2], outputs=output, name='image_captioning_model')
     return model
 
-@st.cache
+@st.cache(max_entries=1)
 def load_caption_generator():
     # downloading trained caption generator model from my google drive 
     url = "https://drive.google.com/uc?id=10AkZ2UTReklr_lDlJ1R8jUWszr_OCscG"
