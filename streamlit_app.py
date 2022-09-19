@@ -10,7 +10,7 @@ from tensorflow.keras.models import Model
 import tensorflow as tf
 
 from tensorflow import expand_dims
-from tensorflow.keras.applications.efficientnet import EfficientNetB7, preprocess_input
+from tensorflow.keras.applications.resnet import ResNet50, preprocess_input
 from tensorflow.keras.models import Model
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
 from tensorflow.keras.preprocessing.sequence import pad_sequences
