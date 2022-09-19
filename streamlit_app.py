@@ -41,7 +41,7 @@ def load_feature_extractor():
 
 feature_extractor = load_feature_extractor()
 
-def build_seq2seq_model(feature_input_shape, units, rate, vocab_size, embedding_dim, max_length, ):
+def build_seq2seq_model(feature_input_shape, rate, vocab_size, embedding_dim, max_length, ):
     input_1 = Input(shape=(feature_input_shape,), name='input_1_layer')
     x1 = Dense(embedding_dim, activation='relu', name='input_1_dense_1_layer')(input_1)
     x1 = Dropout(rate, name='input_1_dropout_layer')(x1)
