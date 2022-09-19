@@ -15,9 +15,9 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
-SHAPE=(600,600)
-MAX_LENGTH=22
-EMBEDDING_DIM=200
+SHAPE=(224,224)
+MAX_LENGTH=33
+EMBEDDING_DIM=128
 
 
 @st.cache
@@ -33,11 +33,9 @@ vocab_size=len(inverse_vocabulary)+1
 @st.cache
 def load_feature_extractor():
     # downloading tensorflow pre-trained model for generating feature from image 
-    # url = 'https://drive.google.com/uc?id=1-050q5AQWBArHiDZf6yRH6bXk29KoWPV'
-    # output = 'feature_extractor.h5'
-    efficientnet_b7=EfficientNetB7(weights='imagenet')
-    feature_extractor=Model(inputs=efficientnet_b7.inputs, outputs=efficientnet_b7.layers[-2].output)
-    optmizer = tf.keras.optimizers.Adam(1e-5)
+    resnet50=ResNet50(weights='imagenet')
+    feature_extractor=Model(inputs=resnet50.inputs, outputs=resnet50.layers[-2].output)
+    # optmizer = tf.keras.optimizers.Adam(1e-2)
     # feature_extractor.compile(optimizer=optmizer, loss='categorical_crossentropy', metrics=['accuracy'])
     
     return feature_extractor
@@ -46,30 +44,33 @@ def load_feature_extractor():
 feature_extractor = load_feature_extractor()
 
 @st.cache
-def build_model(feature_input_shape, vocab_size, units, max_length, embedding_dim):
-    input1 = Input(shape=feature_input_shape, name='feature_input_layer')
-    x1=Dense(units, activation='relu', name='dense_layer_1_after_feature_input')(input1)
-    x1=RepeatVector(max_length, name='repeat_vector_layer')(x1)
-    input2 = Input(shape=(max_length,), name='caption_input_layer')
-    x2=Embedding(vocab_size, embedding_dim, input_length=max_length, mask_zero=True, trainable=False, name='Embedding_layer')(input2)
-    x2=LSTM(units, return_sequences=True, name='lstm_layer_1')(x2)
-    x2=TimeDistributed(Dense(embedding_dim, name='densly_time_distributed_layer'), name='time_distributed_layer')(x2)
+def build_seq2seq_model(feature_input_shape, units, rate, vocab_size, embedding_dim, max_length, ):
+    input_1 = Input(shape=(feature_input_shape,), name='input_1_layer')
+    x1 = Dense(embedding_dim, activation='relu', name='input_1_dense_1_layer')(input_1)
+    x1 = Dropout(rate, name='input_1_dropout_layer')(x1)
+    x1 = RepeatVector(max_length, name='repeat_vector_layer')(x1)
 
-    x=Concatenate(name='concate_layer')([x1,x2])
-    x=LSTM(units, return_sequences=True)(x)
-    x=LSTM(units)(x)
-    x=Dense(units, activation='relu', name='dense_layer_1_after_concat')(x)
-    output=Dense(vocab_size, activation='softmax', name='output_layer')(x)
-    model=Model(inputs=[input1, input2], outputs=output, name='image_captioning_model')
+    input_2 = Input(shape=(max_length,), name='input_2_layer')
+    x2 = Embedding(vocab_size, embedding_dim, input_length=max_length, mask_zero=True, name='embedding_layer_1')(input_2)
+    x2 = LSTM(256, return_sequences=True, name='input_2_layer_LSTM_1')(x2)
+    x2 = TimeDistributed(Dense(embedding_dim, activation='softmax', name='dec_time_distributed_layer'), name='time_dsitributed_layer')(x2)
+    x = Concatenate()([x1,x2])  
+    
+    x = LSTM(128, return_sequences=True, name='decoder_layer_LSTM_1')(x)
+    x = LSTM(512, return_sequences=False, name='decoder_layer_LSTM_2')(x)
+
+    output = Dense(vocab_size, activation='softmax', name='dec_output_layer')(x)
+    model = Model(inputs=[input_1, input_2], outputs=output, name='seq2seq_model')
+
     return model
 
 @st.cache
 def load_caption_generator():
     # downloading trained caption generator model from my google drive 
-    url = "https://drive.google.com/uc?id=10AkZ2UTReklr_lDlJ1R8jUWszr_OCscG"
+    # url = "https://drive.google.com/uc?id=10AkZ2UTReklr_lDlJ1R8jUWszr_OCscG"
     output="image_captioner.h5"
-    gdown.download(url, output, quiet=False)
-    caption_generator = build_model(feature_input_shape=2560, vocab_size=vocab_size, units=256, max_length=MAX_LENGTH, embedding_dim=EMBEDDING_DIM)
+    # gdown.download(url, output, quiet=False)
+    caption_generator = build_seq2seq_model(feature_input_shape=2048, rate=0.2, vocab_size=vocab_size, embedding_dim=EMBEDDING_DIM, max_length=max_length)
     caption_generator.load_weights(output)
     return caption_generator
     
