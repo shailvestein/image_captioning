@@ -30,20 +30,17 @@ tokenizer = load_tokenizer()
 inverse_vocabulary = tokenizer.index_word
 vocab_size=len(inverse_vocabulary)+1
 
-@st.cache
+@st.cache(max_entries=1)
 def load_feature_extractor():
     # downloading tensorflow pre-trained model for generating feature from image 
     resnet50=ResNet50(weights='imagenet')
     feature_extractor=Model(inputs=resnet50.inputs, outputs=resnet50.layers[-2].output)
     # optmizer = tf.keras.optimizers.Adam(1e-2)
     # feature_extractor.compile(optimizer=optmizer, loss='categorical_crossentropy', metrics=['accuracy'])
-    
     return feature_extractor
-    
-    
+
 feature_extractor = load_feature_extractor()
 
-@st.cache
 def build_seq2seq_model(feature_input_shape, units, rate, vocab_size, embedding_dim, max_length, ):
     input_1 = Input(shape=(feature_input_shape,), name='input_1_layer')
     x1 = Dense(embedding_dim, activation='relu', name='input_1_dense_1_layer')(input_1)
@@ -61,7 +58,6 @@ def build_seq2seq_model(feature_input_shape, units, rate, vocab_size, embedding_
 
     output = Dense(vocab_size, activation='softmax', name='dec_output_layer')(x)
     model = Model(inputs=[input_1, input_2], outputs=output, name='seq2seq_model')
-
     return model
 
 @st.cache
