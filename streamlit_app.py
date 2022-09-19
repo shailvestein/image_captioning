@@ -66,7 +66,7 @@ def load_caption_generator():
     # url = "https://drive.google.com/uc?id=10AkZ2UTReklr_lDlJ1R8jUWszr_OCscG"
     output="image_captioner.h5"
     # gdown.download(url, output, quiet=False)
-    caption_generator = build_seq2seq_model(feature_input_shape=2048, rate=0.2, vocab_size=vocab_size, embedding_dim=EMBEDDING_DIM, max_length=max_length)
+    caption_generator = build_seq2seq_model(feature_input_shape=2048, rate=0.2, vocab_size=vocab_size, embedding_dim=EMBEDDING_DIM, max_length=MAX_LENGTH)
     caption_generator.load_weights(output)
     return caption_generator
     
