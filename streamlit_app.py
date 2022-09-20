@@ -94,10 +94,11 @@ st.text("any human interference with 48% score.")
 
 # creating form to upload image 
 with st.form('uploader'):
-     # file uploader
-     uploaded_image_file = st.file_uploader("Upload Your Image Here", type=['jpg'], accept_multiple_files=False)
-     # submit button
-     submitted = st.form_submit_button('Generate Caption')
+    st.info("Upload Your Image Here")
+    # file uploader
+    uploaded_image_file = st.file_uploader(" ", type=['jpg'], accept_multiple_files=False)
+    # submit button
+    submitted = st.form_submit_button('Generate Caption')
 
     
 # if get images scene name button clicked
