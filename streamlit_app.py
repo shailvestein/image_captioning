@@ -20,7 +20,7 @@ SHAPE=(600,600)
 MAX_LENGTH=30
 EMBEDDING_DIM=128
 
-
+# downloading tokenizer from my Google drive
 @st.cache(max_entries=1)
 def load_tokenizer():
     tokenizer_url = "https://drive.google.com/uc?id=1-B6QUbYBUmA9Zc7lFucwH8LgVW4oB1r0"
@@ -65,6 +65,7 @@ def build_seq2seq_model(feature_input_shape=2560, rate=0.2, vocab_size=vocab_siz
 
     return model
 
+# downloading trained model from my Google drive
 @st.cache(max_entries=1)
 def load_caption_generator():
     # downloading trained caption generator model from my google drive 
@@ -93,7 +94,7 @@ st.warning(body="Disclaimer: This AI has its own limitations and some time resul
 
 # creating form to upload image 
 with st.form('uploader'):
-    st.info("Upload Your Image Here")
+    st.text("Upload Your Image Here")
     # file uploader
     uploaded_image_file = st.file_uploader(" ", type=['jpg', 'jpeg'], accept_multiple_files=False)
     # submit button
