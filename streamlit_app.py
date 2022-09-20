@@ -3,6 +3,7 @@ import gdown
 import numpy as np
 import pickle as pkl
 import os
+import gc
 from PIL import Image
 
 from tensorflow.keras.layers import Input, Embedding, RepeatVector, TimeDistributed, LSTM, Dense, Dropout, Concatenate
@@ -105,16 +106,18 @@ if submitted:
         st.text('Extracting feature from image...')
         # reading image file
         image = Image.open(uploaded_image_file)
+        del uploaded_image_file
         # resizing image array
-        resized_image = image.resize(SHAPE, Image.Resampling.NEAREST)
+        input_image = image.resize(SHAPE, Image.Resampling.NEAREST)
         # converting image file into array
-        image_array = img_to_array(resized_image)
+        input_image = img_to_array(input_image)
         # applying preprocessing function
-        preprocessed_image = preprocess_input(image_array)
+        input_image = preprocess_input(input_image)
         # expanding dimension of input image 
-        expanded_dim_image = expand_dims(preprocessed_image, axis=0)
+        input_image = expand_dims(input_image, axis=0)
         # extracting features from image
-        feature = np.array(feature_extractor.predict(expanded_dim_image))
+        feature = np.array(feature_extractor.predict(input_image))
+        del input_image
         # 
         st.text('done')
         # 
@@ -144,9 +147,12 @@ if submitted:
         st.text('')
         
         result = result.split(' ')
-        output = ' '.join(word for word in result[1:-1])
+        result = ' '.join(word for word in result[1:-1])
         st.text(f'Caption: {output}')
         st.image(image)
+        del result
+        del feature
+        gc.collect()
         
     else:
         st.text('Please upload an image before clicking on "generate caption"!')
