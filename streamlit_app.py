@@ -145,7 +145,7 @@ if submitted:
                     break 
 
 
-            st.text('done!')
+            st.text('Done!')
             st.text('')
 
             result = result.split(' ')
