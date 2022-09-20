@@ -82,12 +82,15 @@ caption_generator = load_caption_generator()
 # title for the webpage
 st.title("Image Captioning Using Deep Learning")
 # text to describe about web app
-st.text("Here our AI based model will generate caption for the image")
-st.text("based on the visual information present in uploaded image.")
-st.text("")
-st.text("You just need to upload an image")
-st.text("It performs some magic on images and tells what is")
-st.text("present in the image without any human interference.")
+st.text("Here, our AI based model will generate")
+st.text("caption  for  the image  based  on the")
+st.text("visual information present in uploaded")
+st.text("image.")
+st.text(" ")
+st.text("You just need  to  upload an image it")
+st.text("performs  magic  on images and  tells")
+st.text("what is present  in the image without")
+st.text("any human interference.")
 
 # creating form to upload image 
 with st.form('uploader'):
