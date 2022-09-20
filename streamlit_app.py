@@ -149,13 +149,14 @@ if submitted:
         result = ' '.join(word for word in result[1:-1])
         st.text(f'Caption: {result}')
         st.image(image)
+        st.balloons()
         del result
         del feature
         gc.collect()
         
     else:
         # st.text('Please upload an image before clicking on "generate caption"!')
-        st.warning(body="!!!Alert: please upload an image before clicking on 'generate caption'!!!", icon="⚠️")
+        st.warning(body="!!!Alert: please upload an image before clicking on 'generate caption'!!!")
 else:
     # if get image scene name is clicked but no images are uploaded print this messege
-    st.warning(body="!!!Alert: please upload an image before clicking on 'generate caption'!!!", icon="⚠️")
+    st.warning(body="!!!Alert: please upload an image before clicking on 'generate caption'!!!")
