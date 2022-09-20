@@ -91,7 +91,7 @@ st.text("You just need  to  upload an image it")
 st.text("performs  magic  on images and  tells")
 st.text("what is present  in the image without")
 st.text("any human interference with 48% score.")
-
+st.warning(body="Also this AI has its own limitations and some time result may not be enough or incorrect")
 # creating form to upload image 
 with st.form('uploader'):
     st.info("Upload Your Image Here")
