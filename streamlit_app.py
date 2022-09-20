@@ -157,16 +157,17 @@ if submitted:
 
                 result = result.split(' ')
                 result = ' '.join(word for word in result[1:-1])
-                st.text(f'Caption: {result}')
+                # st.text(f'Caption: {result}')
                 # st.balloons()
+                st.success(result)
                 st.image(image)
 
                 del result
                 del feature
                 gc.collect()
                 # my_bar.progress(100)
-            st.success("done!")
-            st.snow()
+            
+            # st.snow()
         else:
             st.error(body="This is a B&W image, please upload a colored image")
     else:
