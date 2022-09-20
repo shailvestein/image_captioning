@@ -164,6 +164,7 @@ if submitted:
             gc.collect()
             # my_bar.progress(100)
         st.success("done!")
+        st.snow()
         
     else:
         # st.text('Please upload an image before clicking on "generate caption"!')
