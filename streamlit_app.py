@@ -102,7 +102,7 @@ if submitted:
     # appending images into list if there are more than 1 images uploaded
     # if image_file is not none
     if not uploaded_image_file is None:
-        # 
+        # output to notify user
         st.text('Extracting feature from image...')
         # reading image file
         image = Image.open(uploaded_image_file)
@@ -118,9 +118,8 @@ if submitted:
         # extracting features from image
         feature = np.array(feature_extractor.predict(input_image))
         del input_image
-        # 
-        st.text('done')
-        # 
+        
+        # output to notify user
         st.text('Generating caption....')
         # this will store the predicted result 
         result = "<start>"
@@ -155,7 +154,8 @@ if submitted:
         gc.collect()
         
     else:
-        st.text('Please upload an image before clicking on "generate caption"!')
+        # st.text('Please upload an image before clicking on "generate caption"!')
+        st.warning('!!!Alert: please upload an image before clicking on "generate caption"!!!', icon="⚠️")
 else:
     # if get image scene name is clicked but no images are uploaded print this messege
-    st.text('!!!Alert: please upload an image before clicking on "generate caption"!!!')
+    st.warning('!!!Alert: please upload an image before clicking on "generate caption"!!!', icon="⚠️")
