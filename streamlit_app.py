@@ -148,7 +148,7 @@ if submitted:
         
         result = result.split(' ')
         result = ' '.join(word for word in result[1:-1])
-        st.text(f'Caption: {output}')
+        st.text(f'Caption: {result}')
         st.image(image)
         del result
         del feature
