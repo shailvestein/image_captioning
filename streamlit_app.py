@@ -89,7 +89,7 @@ st.title(title)
 # text to describe about web app
 st.info(information)
 
-st.warning(body="Alert: This AI has its own limitations and some time result may not be enough or correct")
+st.warning(body="Disclaimer: This AI has its own limitations and some time result may not be enough or correct")
 
 # creating form to upload image 
 with st.form('uploader'):
