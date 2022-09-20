@@ -151,7 +151,7 @@ if submitted:
             result = result.split(' ')
             result = ' '.join(word for word in result[1:-1])
             st.text(f'Caption: {result}')
-            st.balloons()
+            # st.balloons()
             st.image(image)
             
             del result
