@@ -107,64 +107,68 @@ if submitted:
     # if image_file is not none
     if not uploaded_image_file is None:
         # my_bar = st.progress(0)
-        with st.spinner("Generating text from image..."):
-            # for p in [0]:
-            # output to notify user
-            # st.text('Extracting feature from image...')
-            # reading image file
-            image = Image.open(uploaded_image_file)
-            del uploaded_image_file
-            # resizing image array
-            input_image = image.resize(SHAPE, Image.Resampling.NEAREST)
-            # converting image file into array
-            input_image = img_to_array(input_image)
-            # applying preprocessing function
-            input_image = preprocess_input(input_image)
-            # expanding dimension of input image 
-            input_image = expand_dims(input_image, axis=0)
-            # extracting features from image
-            feature = np.array(feature_extractor.predict(input_image))
-            del input_image
-            # my_bar.progress(50)
-            # output to notify user
-            st.text('Generating caption....')
-            # this will store the predicted result 
-            result = "<start>"
-            for i in range(MAX_LENGTH):
-                # converting result into sequences
-                inp_seq = tokenizer.texts_to_sequences([result])[0]
-                # padding inp_sequences
-                pad_seq = pad_sequences([inp_seq], maxlen=MAX_LENGTH, padding='post')
-                # Now, predicting the captioning words for from 
-                # the image feature and padded sequences array
-                yhat = caption_generator.predict([feature, pad_seq])
-                # getting index of predicted word 
-                word_index = np.argmax(yhat, axis=-1)[0]
-                # getting word for index from inverse vocabulary
-                word = inverse_vocabulary.get(word_index)
-                # concatenating generated word to result
-                result += ' ' + word 
-                # breaking loop/prediction if <end> word detected
-                if word == '<end>':
-                    break 
+        # reading image file
+        image = Image.open(uploaded_image_file)
+        del uploaded_image_file
+        # checking dimensions of uploaded image
+        if len(image.getbands()) > 1:
+            with st.spinner("Generating text from image..."):
+                # for p in [0]:
+                # output to notify user
+                # st.text('Extracting feature from image...')
+
+                # resizing image array
+                input_image = image.resize(SHAPE, Image.Resampling.NEAREST)
+                # converting image file into array
+                input_image = img_to_array(input_image)
+                # applying preprocessing function
+                input_image = preprocess_input(input_image)
+                # expanding dimension of input image 
+                input_image = expand_dims(input_image, axis=0)
+                # extracting features from image
+                feature = np.array(feature_extractor.predict(input_image))
+                del input_image
+                # my_bar.progress(50)
+                # output to notify user
+                st.text('Generating caption....')
+                # this will store the predicted result 
+                result = "<start>"
+                for i in range(MAX_LENGTH):
+                    # converting result into sequences
+                    inp_seq = tokenizer.texts_to_sequences([result])[0]
+                    # padding inp_sequences
+                    pad_seq = pad_sequences([inp_seq], maxlen=MAX_LENGTH, padding='post')
+                    # Now, predicting the captioning words for from 
+                    # the image feature and padded sequences array
+                    yhat = caption_generator.predict([feature, pad_seq])
+                    # getting index of predicted word 
+                    word_index = np.argmax(yhat, axis=-1)[0]
+                    # getting word for index from inverse vocabulary
+                    word = inverse_vocabulary.get(word_index)
+                    # concatenating generated word to result
+                    result += ' ' + word 
+                    # breaking loop/prediction if <end> word detected
+                    if word == '<end>':
+                        break 
 
 
-            # st.text('Done!')
-            # st.text('')
+                # st.text('Done!')
+                # st.text('')
 
-            result = result.split(' ')
-            result = ' '.join(word for word in result[1:-1])
-            st.text(f'Caption: {result}')
-            # st.balloons()
-            st.image(image)
+                result = result.split(' ')
+                result = ' '.join(word for word in result[1:-1])
+                st.text(f'Caption: {result}')
+                # st.balloons()
+                st.image(image)
 
-            del result
-            del feature
-            gc.collect()
-            # my_bar.progress(100)
-        st.success("done!")
-        st.snow()
-        
+                del result
+                del feature
+                gc.collect()
+                # my_bar.progress(100)
+            st.success("done!")
+            st.snow()
+        else:
+            st.error(body="This is a B&W image, please upload a colored image")
     else:
         # st.text('Please upload an image before clicking on "generate caption"!')
         st.error(body="!!!Alert: please upload an image before clicking on 'generate caption'!!!")
