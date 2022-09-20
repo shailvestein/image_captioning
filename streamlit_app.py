@@ -95,7 +95,7 @@ st.warning(body="Disclaimer: This AI has its own limitations and some time resul
 with st.form('uploader'):
     st.info("Upload Your Image Here")
     # file uploader
-    uploaded_image_file = st.file_uploader(" ", type=['jpg'], accept_multiple_files=False)
+    uploaded_image_file = st.file_uploader(" ", type=['jpg', 'jpeg', 'png'], accept_multiple_files=False)
     # submit button
     submitted = st.form_submit_button('Generate Caption')
 
