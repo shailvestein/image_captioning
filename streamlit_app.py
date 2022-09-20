@@ -167,7 +167,7 @@ if submitted:
         
     else:
         # st.text('Please upload an image before clicking on "generate caption"!')
-        st.erroe(body="!!!Alert: please upload an image before clicking on 'generate caption'!!!")
+        st.error(body="!!!Alert: please upload an image before clicking on 'generate caption'!!!")
 else:
     # if get image scene name is clicked but no images are uploaded print this messege
     # st.warning(body="!!!Alert: please upload an image before clicking on 'generate caption'!!!")
