@@ -68,8 +68,8 @@ def build_seq2seq_model(feature_input_shape=2560, rate=0.2, vocab_size=vocab_siz
 # downloading trained model from my Google drive
 @st.cache(max_entries=1)
 def load_caption_generator():
-    # downloading trained caption generator model from my google drive 
-    url = "https://drive.google.com/uc?id=1-DwVRfkqnhEHaLA0HBqdWVo-TY4KwhB0"
+    # downloading trained caption generator model from my google drive
+    url = "https://drive.google.com/uc?id=1-U-ra6Kcggo-V0VFX1YCqD5y-q4JdJKd"
     output="image_captioner.h5"
     gdown.download(url, output, quiet=False)
     caption_generator = build_seq2seq_model()
