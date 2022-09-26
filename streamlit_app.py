@@ -53,11 +53,12 @@ def build_seq2seq_model(feature_input_shape=2560, rate=0.2, vocab_size=vocab_siz
 
     input_2 = Input(shape=(max_length,), name='input_2_layer')
     x2 = Embedding(vocab_size, embedding_dim, input_length=max_length, mask_zero=True, name='embedding_layer_1')(input_2)
-    x2 = LSTM(int(embedding_dim*2), return_sequences=True, name='input_2_layer_LSTM_1', dropout=0.2)(x2)
+    x2, state_h, state_c = LSTM(int(embedding_dim), return_state=True, return_sequences=True, name='input_2_layer_LSTM_1', dropout=0.2)(x2)
+    x2, state_h, state_c = LSTM(int(embedding_dim), return_state=True, return_sequences=True, name='input_2_layer_LSTM_2', dropout=0.2)(x2)
     x2 = TimeDistributed(Dense(embedding_dim, activation='softmax', name='dec_time_distributed_layer'), name='time_dsitributed_layer')(x2)
     x = Concatenate()([x1,x2])  
     
-    x = LSTM(embedding_dim, return_sequences=True, name='decoder_layer_LSTM_1', dropout=0.2)(x)
+    x = LSTM(embedding_dim, return_sequences=True, name='decoder_layer_LSTM_1', dropout=0.2)(x, initial_state=[state_h, state_c])
     x = LSTM(int(embedding_dim*4), return_sequences=False, name='decoder_layer_LSTM_2', dropout=0.2)(x)
 
     output = Dense(vocab_size, activation='softmax', name='dec_output_layer')(x)
