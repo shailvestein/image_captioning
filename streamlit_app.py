@@ -17,13 +17,14 @@ from tensorflow.keras.preprocessing.image import load_img, img_to_array
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 SHAPE=(600,600)
-MAX_LENGTH=30
-EMBEDDING_DIM=128
+MAX_LENGTH=27
+EMBEDDING_DIM=100
 
 # downloading tokenizer from my Google drive
 @st.cache(max_entries=1)
 def load_tokenizer():
-    tokenizer_url = "https://drive.google.com/uc?id=1-B6QUbYBUmA9Zc7lFucwH8LgVW4oB1r0"
+	# https://drive.google.com/file/d/1F2pcPgoQOslpZ0wpPw_lMNg-3lKF6NMR/view?usp=share_link
+    tokenizer_url = "https://drive.google.com/uc?id=1F2pcPgoQOslpZ0wpPw_lMNg-3lKF6NMR"
     tokenizer_output = "tokenizer.pkl"
     gdown.download(tokenizer_url, tokenizer_output)
     with open('./tokenizer.pkl', 'rb') as f:
@@ -44,7 +45,7 @@ def load_feature_extractor():
 feature_extractor = load_feature_extractor()
 
 @st.cache(max_entries=1)
-def build_seq2seq_model(feature_input_shape=2560, rate=0.2, vocab_size=vocab_size, embedding_dim=EMBEDDING_DIM, max_length=MAX_LENGTH):
+def build_seq2seq_model(feature_input_shape=2560, rate=0.5, lstm_units=256, vocab_size=vocab_size, embedding_dim=100, max_length=max_length):
     tf.keras.backend.clear_session()
     input_1 = Input(shape=(feature_input_shape,), name='input_1_layer')
     x1 = Dense(embedding_dim, activation='relu', name='input_1_dense_1_layer')(input_1)
@@ -53,13 +54,16 @@ def build_seq2seq_model(feature_input_shape=2560, rate=0.2, vocab_size=vocab_siz
 
     input_2 = Input(shape=(max_length,), name='input_2_layer')
     x2 = Embedding(vocab_size, embedding_dim, input_length=max_length, mask_zero=True, name='embedding_layer_1')(input_2)
-    x2, state_h, state_c = LSTM(int(embedding_dim), return_state=True, return_sequences=True, name='input_2_layer_LSTM_1', dropout=0.2)(x2)
-    x2, state_h, state_c = LSTM(int(embedding_dim), return_state=True, return_sequences=True, name='input_2_layer_LSTM_2', dropout=0.2)(x2)
-    x2 = TimeDistributed(Dense(embedding_dim, activation='softmax', name='dec_time_distributed_layer'), name='time_dsitributed_layer')(x2)
+    x2, state = GRU(lstm_units, return_state=True, return_sequences=True, name='input_2_layer_LSTM_1',)(x2)
+    x2, state = GRU(lstm_units, return_state=True, return_sequences=True, name='input_2_layer_LSTM_2',)(x2, initial_state=[state])
+
+    x2 = TimeDistributed(Dense(lstm_units, activation='softmax', name='dec_time_distributed_layer'), name='time_dsitributed_layer')(x2)
     x = Concatenate()([x1,x2])  
+
+    x = GRU(lstm_units, return_sequences=False, name='decoder_layer_LSTM_3',)(x, initial_state=[state])
     
-    x = LSTM(embedding_dim, return_sequences=True, name='decoder_layer_LSTM_1', dropout=0.2)(x, initial_state=[state_h, state_c])
-    x = LSTM(int(embedding_dim*4), return_sequences=False, name='decoder_layer_LSTM_2', dropout=0.2)(x)
+    x = Dense(2048, activation='relu', name='hidden_layer_1')(x)
+    x = Dropout(rate, name='decoder_dropout_layer')(x)
 
     output = Dense(vocab_size, activation='softmax', name='dec_output_layer')(x)
     model = Model(inputs=[input_1, input_2], outputs=output, name='seq2seq_model')
@@ -70,7 +74,8 @@ def build_seq2seq_model(feature_input_shape=2560, rate=0.2, vocab_size=vocab_siz
 @st.cache(max_entries=1)
 def load_caption_generator():
     # downloading trained caption generator model from my google drive
-    url = "https://drive.google.com/uc?id=1-U-ra6Kcggo-V0VFX1YCqD5y-q4JdJKd"
+    # https://drive.google.com/file/d/1km3GlZ7ggKXstB0IYnCgNaC6sn3_qOtJ/view?usp=share_link
+    url = "https://drive.google.com/uc?id=1km3GlZ7ggKXstB0IYnCgNaC6sn3_qOtJ"
     output="image_captioner.h5"
     gdown.download(url, output, quiet=False)
     caption_generator = build_seq2seq_model()
