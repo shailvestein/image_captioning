@@ -139,7 +139,7 @@ if submitted:
                 # output to notify user
                 st.text('Generating caption....')
                 # this will store the predicted result 
-                result = "<start>"
+                result = "<sos>"
                 for i in range(MAX_LENGTH):
                     # converting result into sequences
                     inp_seq = tokenizer.texts_to_sequences([result])[0]
@@ -155,7 +155,7 @@ if submitted:
                     # concatenating generated word to result
                     result += ' ' + word 
                     # breaking loop/prediction if <end> word detected
-                    if word == '<end>':
+                    if word == '<eos>':
                         break 
 
 
