@@ -45,7 +45,7 @@ def load_feature_extractor():
 feature_extractor = load_feature_extractor()
 
 @st.cache(max_entries=1)
-def build_seq2seq_model(feature_input_shape=2560, rate=0.5, lstm_units=256, vocab_size=vocab_size, embedding_dim=100, max_length=max_length):
+def build_seq2seq_model(feature_input_shape=2560, rate=0.5, lstm_units=256, vocab_size=vocab_size, embedding_dim=EMBEDDING_DIM, max_length=MAX_LENGTH):
     tf.keras.backend.clear_session()
     input_1 = Input(shape=(feature_input_shape,), name='input_1_layer')
     x1 = Dense(embedding_dim, activation='relu', name='input_1_dense_1_layer')(input_1)
