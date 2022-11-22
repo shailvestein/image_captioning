@@ -6,7 +6,7 @@ import os
 import gc
 from PIL import Image
 
-from tensorflow.keras.layers import Input, Embedding, RepeatVector, TimeDistributed, LSTM, Dense, Dropout, Concatenate
+from tensorflow.keras.layers import Input, Embedding, RepeatVector, TimeDistributed, GRU, Dense, Dropout, Concatenate
 from tensorflow.keras.models import Model
 import tensorflow as tf
 
