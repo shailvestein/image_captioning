@@ -10,7 +10,7 @@ Data set downloaded from kaggle link https://www.kaggle.com/datasets/awsaf49/coc
 * We loaded captions into the memory and performed some text pre-processsing on them.
 * And saved them into the disk for further use during training.
 * After pre-processing performed EDA.
-* Made some conclusions like: max number = 27, of words in a sentence to be consider because 99.9% of captions having words <= 27 in both train and val and found out some common words that are present frequently in the captions using "Word Cloud".
+* Made some conclusions like: taking max number = 27, of words in a sentence to be consider because 99.9% of captions having words <= 27 in both train and val and found out some common words that are present frequently in the captions using "Word Cloud".
 
 ## 2. Feature Extraction:
 * Initialised efficientnet b7 pre-trained model for feature extraction.
