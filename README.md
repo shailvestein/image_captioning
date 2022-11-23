@@ -6,18 +6,18 @@ Webapp link deployed on streamlit: https://shailvestein-image-captioning-streaml
 
 Data set downloaded from kaggle link https://www.kaggle.com/datasets/awsaf49/coco-2017-dataset
 
-1. Data loading and pre-preocessing
+## 1. Data loading and pre-preocessing:
 * We loaded captions into the memory and performed some text pre-processsing on them.
 * And saved them into the disk for further use during training.
 * After pre-processing performed EDA.
 * Made some conclusions like: max number = 27, of words in a sentence to be consider because 99.9% of captions having words <= 27 in both train and val, found out some words that are present frequently in the captions using "Word Cloud".
 
-2. Feature Extraction
+## 2. Feature Extraction:
 * Initialised efficientnet b7 pre-trained model for feature extraction.
 * and then downloaded pre-trained efficientnet b7 for feature extraction for train, val and test set images.
 * Extracted features and saved them into the disk for further use during model training.
 
-3. Training:
+## 3. Training:
 * First of all, we loaded and pre-processed images captions and extracted features from disk.
 * Defined custom dataloader / generator and sequence-to-sequence model for image captioning using tensorflow v2.5
 * During training the pre-processed and extracted features will be feed to model as input.
