@@ -137,7 +137,7 @@ if submitted:
                 del input_image
                 # my_bar.progress(50)
                 # output to notify user
-                st.text('Generating caption....')
+                # st.text('Generating caption....')
                 # this will store the predicted result 
                 result = "<sos>"
                 for i in range(MAX_LENGTH):
