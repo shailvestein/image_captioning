@@ -2,10 +2,26 @@
 
 This project is developed now and using sequence-to-sequence model for prediction in the backend.
 
-Prototype webapp link deployed on streamlit: https://shailvestein-image-captioning-streamlit-app-o0osw7.streamlitapp.com/
+Webapp link deployed on streamlit: https://shailvestein-image-captioning-streamlit-app-o0osw7.streamlitapp.com/
 
-This Text generation works as follows:
-1. Takes image as an input and extracts features.
-2. Extracted features are then passed to the sequenced model which predicts the next word and input looks like: [extracted_features_array, "\<start>"]
-3. Now, our model predicts the next word after <start> and then the next input will be [extracted_features_array, "\<start> word1"] and this process is going as long as the the model predicts "\<end>" word.
-4. Now, we have generated a sentence whick looks like: "\<start> word1 word2 word3 ... \<end>"
+Data set downloaded from kaggle link https://www.kaggle.com/datasets/awsaf49/coco-2017-dataset
+
+1. Data loading and pre-preocessing
+* We loaded captions into the memory and performed some text pre-processsing on them.
+* And saved them into the disk for further use during training.
+* After pre-processing performed EDA.
+* Made some conclusions like: max number = 27, of words in a sentence to be consider because 99.9% of captions having words <= 27 in both train and val, found out some words that are present frequently in the captions using "Word Cloud".
+
+2. Feature Extraction
+* Initialised efficientnet b7 pre-trained model for feature extraction.
+* and then downloaded pre-trained efficientnet b7 for feature extraction for train, val and test set images.
+* Extracted features and saved them into the disk for further use during model training.
+
+3. Training:
+* First of all, we loaded and pre-processed images captions and extracted features from disk.
+* Defined custom dataloader / generator and sequence-to-sequence model for image captioning using tensorflow v2.5
+* During training the pre-processed and extracted features will be feed to model as input.
+* After training model, define a caption generator function which will generate text from the image.
+* After this, the BLEU score is calculated on the actual and predicted captions using NLTK.
+* By seeing, BLEU score for train and val dataset and made conclusion that this model is generalized model because the difference between train and val BLEU score is nearly 1%.
+* Generated text on 50 test images and found model is performing good.
