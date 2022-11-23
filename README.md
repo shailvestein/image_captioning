@@ -1,4 +1,4 @@
-# Image Captioning Using Deep Learning
+# Image Captioning Using Deep Learning (TensorFlow v2.5)
 
 This project is developed now and using sequence-to-sequence model for prediction in the backend.
 
