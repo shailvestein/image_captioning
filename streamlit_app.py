@@ -100,9 +100,9 @@ st.warning(body="Disclaimer: This AI based app has its own limitations and some 
 
 # creating form to upload image 
 with st.form('uploader'):
-    st.text("Upload Your Image Here")
+    st.text("Upload Your Color Image Here Only")
     # file uploader
-    uploaded_image_file = st.file_uploader("Color images only", type=['jpg', 'jpeg'], accept_multiple_files=False)
+    uploaded_image_file = st.file_uploader(" ", type=['jpg', 'jpeg'], accept_multiple_files=False)
     # submit button
     submitted = st.form_submit_button('Generate Caption')
 
