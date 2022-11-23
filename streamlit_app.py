@@ -23,7 +23,6 @@ EMBEDDING_DIM=100
 # downloading tokenizer from my Google drive
 @st.cache(max_entries=1)
 def load_tokenizer():
-	# https://drive.google.com/file/d/1F2pcPgoQOslpZ0wpPw_lMNg-3lKF6NMR/view?usp=share_link
     tokenizer_url = "https://drive.google.com/uc?id=1F2pcPgoQOslpZ0wpPw_lMNg-3lKF6NMR"
     tokenizer_output = "tokenizer.pkl"
     gdown.download(tokenizer_url, tokenizer_output)
@@ -74,7 +73,6 @@ def build_seq2seq_model(feature_input_shape=2560, rate=0.5, lstm_units=256, voca
 @st.cache(max_entries=1)
 def load_caption_generator():
     # downloading trained caption generator model from my google drive
-    # https://drive.google.com/file/d/1km3GlZ7ggKXstB0IYnCgNaC6sn3_qOtJ/view?usp=share_link
     url = "https://drive.google.com/uc?id=1km3GlZ7ggKXstB0IYnCgNaC6sn3_qOtJ"
     output="image_captioner.h5"
     gdown.download(url, output, quiet=False)
@@ -104,7 +102,7 @@ with st.form('uploader'):
     # file uploader
     uploaded_image_file = st.file_uploader(" ", type=['jpg', 'jpeg'], accept_multiple_files=False)
     # submit button
-    submitted = st.form_submit_button('Generate Caption')
+    submitted = st.form_submit_button('Generate Text')
 
     
 # if get images scene name button clicked
@@ -113,16 +111,12 @@ if submitted:
     # appending images into list if there are more than 1 images uploaded
     # if image_file is not none
     if not uploaded_image_file is None:
-        # my_bar = st.progress(0)
         # reading image file
         image = Image.open(uploaded_image_file)
         del uploaded_image_file
         # checking dimensions of uploaded image
         if len(image.getbands()) > 1:
             with st.spinner("Generating text from image..."):
-                # for p in [0]:
-                # output to notify user
-                # st.text('Extracting feature from image...')
 
                 # resizing image array
                 input_image = image.resize(SHAPE, Image.Resampling.NEAREST)
@@ -135,9 +129,6 @@ if submitted:
                 # extracting features from image
                 feature = np.array(feature_extractor.predict(input_image))
                 del input_image
-                # my_bar.progress(50)
-                # output to notify user
-                # st.text('Generating caption....')
                 # this will store the predicted result 
                 result = "<sos>"
                 for i in range(MAX_LENGTH):
@@ -157,30 +148,19 @@ if submitted:
                     # breaking loop/prediction if <end> word detected
                     if word == '<eos>':
                         break 
-
-
-                # st.text('Done!')
-                # st.text('')
-
+			
                 result = result.split(' ')
                 result = ' '.join(word for word in result[1:-1])
-                # st.text(f'Caption: {result}')
-                # st.balloons()
+
                 st.success(result)
                 st.image(image)
 
                 del result
                 del feature
                 gc.collect()
-                # my_bar.progress(100)
-            
-            # st.snow()
         else:
             st.error(body="This is a B&W image, please upload a colored image")
     else:
-        # st.text('Please upload an image before clicking on "generate caption"!')
-        st.error(body="!!!Alert: please upload an image before clicking on 'generate caption'!!!")
+        st.error(body="Please upload an image before clicking on 'generate text'!!!")
 else:
-    # if get image scene name is clicked but no images are uploaded print this messege
-    # st.warning(body="!!!Alert: please upload an image before clicking on 'generate caption'!!!")
     pass
