@@ -96,7 +96,7 @@ st.title(title)
 # text to describe about web app
 st.info(information)
 
-st.warning(body="Disclaimer: This AI based app has its own limitations and some time result may not be enough or correct")
+st.warning(body="Disclaimer: This AI based app has its own limitations and some time result may not be enough or correct. Email your suggestion: shailvesteinsqrt@gmail.com")
 
 # creating form to upload image 
 with st.form('uploader'):
