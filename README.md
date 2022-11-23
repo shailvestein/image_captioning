@@ -17,7 +17,7 @@ Data set downloaded from kaggle link https://www.kaggle.com/datasets/awsaf49/coc
 * and then downloaded pre-trained efficientnet b7 for feature extraction for train, val and test set images.
 * Extracted features and saved them into the disk for further use during model training.
 
-## 3. Training:
+## 3. Training and Prediction:
 * First of all, we loaded and pre-processed images captions and extracted features from disk.
 * Defined custom dataloader / generator and sequence-to-sequence model for image captioning using tensorflow v2.5
 * During training the pre-processed and extracted features will be feed to model as input.
