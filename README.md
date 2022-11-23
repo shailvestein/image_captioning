@@ -1,6 +1,6 @@
-# image_captioning
+# Image Captioning Using Deep Learning
 
-This project is under development phase.
+This project is developed now and using sequence-to-sequence model for prediction in the backend.
 
 Prototype webapp link deployed on streamlit: https://shailvestein-image-captioning-streamlit-app-o0osw7.streamlitapp.com/
 
