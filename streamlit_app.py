@@ -6,9 +6,12 @@ import os
 import gc
 from PIL import Image
 
+import tensorflow as tf
+import tensorflow
+
 from tensorflow.keras.layers import Input, Embedding, RepeatVector, TimeDistributed, GRU, Dense, Dropout, Concatenate
 from tensorflow.keras.models import Model
-import tensorflow as tf
+
 
 from tensorflow import expand_dims
 from tensorflow.keras.applications.efficientnet import EfficientNetB7, preprocess_input
