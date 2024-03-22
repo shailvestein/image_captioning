@@ -1,5 +1,5 @@
-tensorflow-gpu==2.5.0
-streamlit==1.13.0
+tensorflow-gpu==2.10.0
+streamlit
 pickle5
 gdown
 
