@@ -15,7 +15,7 @@ from tensorflow.keras.models import Model
 
 from tensorflow import expand_dims
 from tensorflow.keras.applications import EfficientNetB7 as EfficientNetB7
-from tensorflow keras.applications import preprocess_input
+from tensorflow.keras.applications.efficientnet import preprocess_input
 from tensorflow.keras.models import Model
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
 from tensorflow.keras.preprocessing.sequence import pad_sequences
