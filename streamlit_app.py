@@ -25,7 +25,7 @@ MAX_LENGTH=27
 EMBEDDING_DIM=100
 
 # downloading tokenizer from my Google drive
-@st.cache(max_entries=1)
+@st.cache_data(max_entries=1)
 def load_tokenizer():
     tokenizer_url = "https://drive.google.com/uc?id=1F2pcPgoQOslpZ0wpPw_lMNg-3lKF6NMR"
     tokenizer_output = "tokenizer.pkl"
@@ -38,7 +38,7 @@ tokenizer = load_tokenizer()
 inverse_vocabulary = tokenizer.index_word
 vocab_size=len(inverse_vocabulary)+1
 
-@st.cache(max_entries=1)
+@st.cache_data(max_entries=1)
 def load_feature_extractor():
     print(f"Downloading feature extractor from tensorflow...", end="")
     efficientnet=EfficientNetB7(weights='imagenet')
@@ -47,7 +47,7 @@ def load_feature_extractor():
     return feature_extractor
 feature_extractor = load_feature_extractor()
 
-@st.cache(max_entries=1)
+@st.cache_data(max_entries=1)
 def build_seq2seq_model(feature_input_shape=2560, rate=0.5, lstm_units=256, vocab_size=vocab_size, embedding_dim=EMBEDDING_DIM, max_length=MAX_LENGTH):
     tf.keras.backend.clear_session()
     input_1 = Input(shape=(feature_input_shape,), name='input_1_layer')
@@ -74,7 +74,7 @@ def build_seq2seq_model(feature_input_shape=2560, rate=0.5, lstm_units=256, voca
     return model
 
 # downloading trained model from my Google drive
-@st.cache(max_entries=1)
+@st.cache_data(max_entries=1)
 def load_caption_generator():
     # downloading trained caption generator model from my google drive
     url = "https://drive.google.com/uc?id=1km3GlZ7ggKXstB0IYnCgNaC6sn3_qOtJ"
