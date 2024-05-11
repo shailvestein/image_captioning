@@ -90,7 +90,11 @@ title = """Generate Text From An Image Using Deep Learning"""
 
 information = """Here, our AI based model will generate caption/text for the image based on the visual 
 information present in uploaded image. You just need  to  upload an image it performs  magic
-on images and  tells what is present  in the image without any human interference with 50% score."""
+on images and  tells what is present  in the image without any human interference with 50% score.
+
+
+This webapp may not work on Indian images because it is trained on 
+ms-coco dataset that contains all the images of foreigners or related to them by any means."""
 
 # title for the webpage
 st.title(title)
