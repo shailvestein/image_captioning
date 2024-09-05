@@ -86,7 +86,7 @@ def load_caption_generator():
     
 caption_generator = load_caption_generator()
 
-title = """Generate Text From an Image Using Deep Learning"""
+title = """Generate Text From an Image Using AI"""
 
 information = """Here, our AI based model will generate caption/text for the image based on the visual 
 information present in uploaded image. You just need  to  upload an image it performs  magic
