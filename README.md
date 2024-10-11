@@ -2,7 +2,7 @@
 
 This project is developed now and using sequence-to-sequence model for prediction in the backend.
 
-Webapp link deployed on streamlit: https://shailvestein-image-captioning-streamlit-app-o0osw7.streamlitapp.com/
+Webapp link deployed on streamlit: https://shailvestein-image-captioning.streamlit.app/
 
 Data set downloaded from kaggle link https://www.kaggle.com/datasets/awsaf49/coco-2017-dataset
 
