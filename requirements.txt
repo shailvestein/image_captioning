@@ -3,5 +3,7 @@ tensorflow-gpu==2.5.0
 protobuf == 3.20.1
 pickle5
 gdown
+referencing==0.28.0
+jsonschema==4.18.0
 
 
