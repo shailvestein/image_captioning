@@ -1,8 +1,28 @@
-numpy==1.19.5
+
+
+# Core dependencies
 tensorflow-gpu==2.5.0
 streamlit==1.9.0
-protobuf == 3.20.1
-pickle5
-gdown
-jsonschema
-referencing
+
+# Dependencies to resolve conflicts
+numpy>=1.19.2,<1.20.0       # Compatible with TensorFlow 2.5.0
+protobuf>=3.12.0,<4.0.0     # Required for TensorFlow and Streamlit compatibility
+jsonschema==3.2.0           # Avoid conflicts with newer versions
+referencing==0.28.0         # Resolve "unexpected keyword argument 'default'" error
+
+# Visualization libraries for Streamlit
+altair>=4.1.0
+matplotlib>=3.3.4
+seaborn>=0.11.1
+
+# Data processing
+pandas==1.4.4
+scipy>=1.5.4
+
+# Additional Streamlit dependencies
+watchdog>=2.1.6
+validators>=0.18.2
+pyarrow>=4.0.1
+
+# Optional: Debugging and utility tools
+tqdm>=4.64.1
