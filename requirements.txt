@@ -1,3 +1,4 @@
+streamlit==1.9.0
 --upgrade streamlit
 tensorflow-gpu==2.5.0
 protobuf == 3.20.1
