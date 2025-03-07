@@ -3,6 +3,7 @@
 # Core dependencies
 tensorflow-gpu==2.5.0
 streamlit==1.9.0
+gdown
 
 # Dependencies to resolve conflicts
 numpy>=1.19.2,<1.20.0       # Compatible with TensorFlow 2.5.0
